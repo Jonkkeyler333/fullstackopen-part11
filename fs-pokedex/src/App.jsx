@@ -30,6 +30,10 @@ const App = () => {
     const pokemonId = pokemonList.find(({ name }) => name === match.params.name).id
     previous = pokemonList.find(({ id }) => id === pokemonId - 1)
     next = pokemonList.find(({ id }) => id === pokemonId + 1)
+    console.log('match=', match)
+    console.log('pokemonId=', pokemonId)
+    console.log('previous=', previous)  
+    console.log('next=', next)
   }
 
   return (
