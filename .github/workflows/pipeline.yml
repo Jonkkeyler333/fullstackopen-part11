@@ -6,17 +6,31 @@ on:
       - main
 
 jobs:
-    simple_deployment_pipeline:
-        runs-on: ubuntu-latest
-        defaults:
-            run:
-                working-directory: fs-pokedex
-        steps:
-            - uses: actions/checkout@v6
-            - uses: actions/setup-node@v6
-              with:
-                node-version: '24'
-            - name: Install dependencies
-              run: npm install
-            - name: Check style
-              run: npm run eslint
+  simple_deployment_pipeline:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: fs-pokedex
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version: "24"
+      - name: Install dependencies
+        run: npm install
+      - name: Check style
+        run: npm run eslint
+      - name: Run npm test
+        run: npm test
+      - name: Run npm build
+        run: npm run build
+      - name: Install Playwright Browsers
+        run: npx playwright install --with-deps
+      - name: Run Playwright tests
+        run: npm run test:e2e
+      - uses: actions/upload-artifact@v4
+        if: ${{ !cancelled() }}
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 15
