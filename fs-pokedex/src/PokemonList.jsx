@@ -4,7 +4,8 @@ import { Link } from 'react-router-dom'
 const PokemonList = ({ pokemonList }) => {
   return (
     <div>
-      <h1>Total pokemon: {pokemonList.length}</h1>
+      <h1>Welcome to the Pokedex</h1>
+      <h2>Total pokemon: {pokemonList.length}</h2>
       <div className="list-container">
         {pokemonList.map(({ id, name }) => (
           <Link key={id} to={`/pokemon/${name}`} className="list-item" style={{ backgroundImage: `url(${`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`})` }}>
