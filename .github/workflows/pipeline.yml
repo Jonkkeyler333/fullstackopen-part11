@@ -38,12 +38,12 @@ jobs:
           path: playwright-report/
           retention-days: 15
       - name: Deploy to Render
-        if: ${{ github.event_name == 'push' }}
+        if: ${{ github.event_name == 'push' && contains(join(github.event.commits.*.message, ' '), '#skip') }}
         run: curl ${{ secrets.RENDER_DEPLOY_HOOK_URL }}
   tag_release:
     needs: [simple_deployment_pipeline]
     runs-on: ubuntu-latest
-    if : ${{ github.event_name == 'push' }}
+    if : ${{ github.event_name == 'push' && contains(join(github.event.commits.*.message, ' '), '#skip') }}
     steps:
       - uses: actions/checkout@v6
       - name: Bump version and create tag
