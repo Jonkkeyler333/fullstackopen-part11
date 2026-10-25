@@ -18,6 +18,8 @@ const PokemonPage = ({ previous, next }) => {
     return <ErrorMessage error={error} />
   }
 
+  console.log('pokemon=', pokemon)
+
   const { type } = pokemon.types.find((type) => type.slot === 1)
   const stats = pokemon.stats.map((stat) => ({
     name: formatName(stat.stat.name),
@@ -25,6 +27,12 @@ const PokemonPage = ({ previous, next }) => {
   })).reverse()
   const normalAbility = pokemon.abilities.find((ability) => !ability.is_hidden)
   const hiddenAbility = pokemon.abilities.find((ability) => ability.is_hidden === true)
+
+  const handleMakeSound = () => {
+    const soundUrl = pokemon.cries.latest
+    const audio = new Audio(soundUrl)
+    audio.play()
+  }
 
   console.log('hiddenAbility=', hiddenAbility)
   return (
@@ -56,6 +64,7 @@ const PokemonPage = ({ previous, next }) => {
           </div>
         </div>
       </div>
+      <button onClick={handleMakeSound} className="make-sound-button">Make pokemon sound 🔊</button>
     </>
   )
 }
