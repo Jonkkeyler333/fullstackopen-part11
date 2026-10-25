@@ -40,6 +40,26 @@ jobs:
       - name: Deploy to Render
         if: ${{ github.event_name == 'push' && contains(join(github.event.commits.*.message, ' '), '#skip') }}
         run: curl ${{ secrets.RENDER_DEPLOY_HOOK_URL }}
+      - name : Notify Discord on failure
+        if: ${{ failure() }}
+        uses: sarisia/actions-status-discord@1.16.0
+        with:
+          webhook: ${{ secrets.DISCORD_WEBHOOK }}
+          title: 🟥 Build Failed! The pipeline has failed
+          status: failure
+          description: |
+            Failure Details:
+              Repository: ${{ github.repository }}
+              Branch: ${{ github.ref_name }}
+              Commit: ${{ github.sha }}
+              Message: ${{ github.event.head_commit.message}}
+              Author: ${{ github.event.head_commit.author.username }}
+              Workflow: ${{ github.workflow }}
+              Job: ${{ github.job }}
+              View Commit: ${{ github.event.head_commit.url }}
+              View Workflow: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          color: 0xff0000
+
   tag_release:
     needs: [simple_deployment_pipeline]
     runs-on: ubuntu-latest
