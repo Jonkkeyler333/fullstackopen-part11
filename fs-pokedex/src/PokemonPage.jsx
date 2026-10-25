@@ -18,6 +18,9 @@ const PokemonPage = ({ previous, next }) => {
     return <ErrorMessage error={error} />
   }
 
+  console.log('pokemon=', pokemon)
+  cosnoele.gl3()
+
   const { type } = pokemon.types.find((type) => type.slot === 1)
   const stats = pokemon.stats.map((stat) => ({
     name: formatName(stat.stat.name),
