@@ -5,4 +5,4 @@ echo "Installing dependencies..."
 npm install
 
 echo "Building the application..."
-npm run build
+npm run build   
